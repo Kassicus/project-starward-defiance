@@ -1,17 +1,26 @@
 extends CharacterBody2D
 
-
 const SPEED = 250.0
 const JUMP_VELOCITY = -400.0
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var platform_ray_cast: RayCast2D = $RayCast2D
+@onready var platform_ray_cast: RayCast2D = $PlatformRayCast
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var wall_ray_cast_right: RayCast2D = $WallRayCastRight
+@onready var wall_ray_cast_left: RayCast2D = $WallRayCastLeft
+
+var current_jumps = 0
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		
+		if wall_ray_cast_left.is_colliding() or wall_ray_cast_right.is_colliding():
+			if current_jumps < 1:
+				if Input.is_action_just_pressed("jump"):
+					current_jumps += 1
+					velocity.y = JUMP_VELOCITY
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -32,6 +41,8 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.flip_h = true
 	
 	if is_on_floor():
+		current_jumps = 0
+		
 		if direction == 0:
 			animated_sprite.play("idle")
 		else:

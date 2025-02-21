@@ -111,14 +111,22 @@ script = ExtResource("1_xstqo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4ay4b")
-animation = &"jumping"
+animation = &"walking"
 autoplay = "idle"
+frame = 2
+frame_progress = 0.239705
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 1)
 shape = SubResource("CapsuleShape2D_p64yp")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="PlatformRayCast" type="RayCast2D" parent="."]
 target_position = Vector2(0, 21)
 collision_mask = 2
 hit_from_inside = true
+
+[node name="WallRayCastRight" type="RayCast2D" parent="."]
+target_position = Vector2(11, 0)
+
+[node name="WallRayCastLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-9, 0)
