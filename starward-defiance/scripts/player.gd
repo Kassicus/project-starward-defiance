@@ -5,6 +5,8 @@ const SPEED = 250.0
 const JUMP_VELOCITY = -400.0
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var platform_ray_cast: RayCast2D = $RayCast2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -14,9 +16,14 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-
 	
 	var direction := Input.get_axis("move_left", "move_right")
+	
+	if platform_ray_cast.is_colliding():
+		if Input.is_action_just_pressed("duck"):
+			collision_shape.set_deferred("disabled", true)
+	else:
+		collision_shape.set_deferred("disabled", false)
 	
 	# Flip sprite
 	if direction > 0:
