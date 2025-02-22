@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://b6va78spi1xsl"]
+[gd_scene load_steps=15 format=4 uid="uid://b6va78spi1xsl"]
 
 [ext_resource type="PackedScene" uid="uid://cknau0y2ccapr" path="res://scenes/player.tscn" id="1_ubpdi"]
 [ext_resource type="Texture2D" uid="uid://cfrscuqgrkd5f" path="res://assets/sprites/test_tilesheet.png" id="2_xox8b"]
@@ -117,6 +117,60 @@ _data = {
 "move": SubResource("Animation_4sq76")
 }
 
+[sub_resource type="Animation" id="Animation_fp7fw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(847, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eow5l"]
+resource_name = "close"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(847, -64), Vector2(847, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_i3q5b"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(847, 0), Vector2(847, -64)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2gc0g"]
+_data = {
+"RESET": SubResource("Animation_fp7fw"),
+"close": SubResource("Animation_eow5l"),
+"open": SubResource("Animation_i3q5b")
+}
+
 [node name="Level" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -142,25 +196,22 @@ autoplay = "move"
 
 [node name="Doors" type="Node" parent="."]
 
-[node name="_Door" type="Node2D" parent="Doors"]
-position = Vector2(848, 0)
+[node name="Door" parent="Doors" instance=ExtResource("4_ou8qg")]
+position = Vector2(847, 0)
 
-[node name="Door" parent="Doors/_Door" instance=ExtResource("4_ou8qg")]
-
-[node name="_Door2" type="Node2D" parent="Doors"]
-position = Vector2(1264, 0)
-
-[node name="Door2" parent="Doors/_Door2" instance=ExtResource("4_ou8qg")]
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Doors/Door"]
+libraries = {
+"": SubResource("AnimationLibrary_2gc0g")
+}
 
 [node name="Player" parent="." instance=ExtResource("1_ubpdi")]
-position = Vector2(1063, 7)
+position = Vector2(0, -22)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2.5, 2.5)
 limit_smoothed = true
 
 [node name="PlayerTooltip" type="Label" parent="Player"]
-visible = false
 z_index = 10
 offset_left = -61.0
 offset_top = -50.0
