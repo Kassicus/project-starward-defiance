@@ -1,7 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://cknau0y2ccapr"]
+[gd_scene load_steps=17 format=3 uid="uid://cknau0y2ccapr"]
 
 [ext_resource type="Texture2D" uid="uid://s2gwimfetmii" path="res://assets/sprites/player_spritesheet.png" id="1_peu0l"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_xstqo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6d75"]
+atlas = ExtResource("1_peu0l")
+region = Rect2(224, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sl78a"]
 atlas = ExtResource("1_peu0l")
@@ -49,6 +53,14 @@ region = Rect2(192, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4ay4b"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6d75")
+}],
+"loop": true,
+"name": &"ducking",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sl78a")
@@ -107,14 +119,13 @@ animations = [{
 radius = 5.0
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 3
 script = ExtResource("1_xstqo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4ay4b")
-animation = &"walking"
+animation = &"idle"
 autoplay = "idle"
-frame = 2
-frame_progress = 0.239705
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 1)
