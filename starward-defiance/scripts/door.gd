@@ -1,6 +1,6 @@
 extends AnimatableBody2D
 
-@onready var player_tooltip: Label = $"../../../Player/PlayerTooltip"
+@onready var player_tooltip: Label = %PlayerTooltip
 @onready var timer: Timer = $Timer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -27,4 +27,5 @@ func _physics_process(delta: float) -> void:
 			timer.start()
 
 func _on_timer_timeout() -> void:
-	pass
+	is_open = false
+	animation_player.play("close")
